@@ -252,12 +252,53 @@ class Db {
   async insert({ model_name = "", data = {}, callback } = {}) {
     try {
       await this.connect();
-      this.model_name(model_naem).insertMany(data, () => {});
+      this.model_name(model_name).insertMany(data, (err, rst) => {
+        if (err) {
+          callback({ error_code: 101, reason: "新增失败", result: err });
+        } else {
+          callback({ error_code: 0, reason: "新增成功", result: rst });
+        }
+      });
+    } catch (err) {
+      callback({ error_code: 102, reason: "连接失败", result: err });
+    }
+  }
+  // 更新数据库
+  async update({ model_name = "", query = {}, data = {}, callback } = {}) {
+    try {
+      await this.connect();
+      this.findModel(model_name).updateMany(
+        query,
+        { $set: data },
+        (err, rst) => {
+          if (err) {
+            callback({ error_code: 101, reason: "修改失败", result: err });
+          } else {
+            callback({ error_code: 0, reason: "修改成功", result: rst });
+          }
+        }
+      );
+    } catch (err) {
+      callback({ error_code: 102, reason: "连接失败", result: err });
+    }
+  }
+  // 删除数据
+  async delete({ model_name = "", query = {}, callback } = {}) {
+    try {
+      await this.connect();
+      this.findModel(model_name).deleteMany(query, (err, rst) => {
+        if (err) {
+          callback({ error_code: 101, resaon: "删除失败", result: err });
+        } else {
+          callback({ error_code: 0, resaon: "删除成功", result: err });
+        }
+      });
     } catch (err) {
       callback({ error_code: 102, reason: "连接失败", result: err });
     }
   }
 }
+module.exports = Db;
 /*
 skip 指定跳过的文档条数。
 limit 指定查询结果的最大条数。
