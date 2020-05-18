@@ -69,7 +69,7 @@ class Db {
   async populate({
     model_name = "",
     query = {},
-    refs = {},
+    refs = [],
     skip = 0,
     limit = 5,
     sort = {},
@@ -126,7 +126,7 @@ class Db {
   async combinPopulate({
     model_name = "",
     query = {},
-    refs = {},
+    refs = [],
     skip = 0,
     limit = 5,
     sort = {},
@@ -210,7 +210,7 @@ class Db {
   async pagination({
     model_name = "",
     query = {},
-    skit = 0,
+    skip = 0,
     limit = 5,
     sort = {},
     callback,
@@ -296,6 +296,9 @@ class Db {
     } catch (err) {
       callback({ error_code: 102, reason: "连接失败", result: err });
     }
+  }
+  close() {
+    mongoose.disconnect();
   }
 }
 module.exports = Db;

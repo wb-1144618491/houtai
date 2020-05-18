@@ -3,9 +3,11 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+var DB = require("./DB/db");
+// apiRouter为后台路由
+var apiRouter = require("./routes/apiRouter");
+// frontRouter为前台路由
+var frontRouter = require("./routes/frontRouter");
 
 var app = express();
 
@@ -19,24 +21,43 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+// 前台接口
+app.use("/api", apiRouter);
+app.use((req, res, next) => {
+  if (req.headers.token) {
+    let db = new DB("houtia");
+    db.findById({
+      model_name: "adminuser",
+      id: req.headers.token,
+      callback: (rst) => {
+        if (!rst.result) {
+          res.send({
+            error_code: 403,
+            reason: "账号不存在",
+            result: null,
+          });
+        } else if (Date.now() > res.result.expires) {
+          res.send({
+            error_code: "402",
+            reason: "token过期,请重新登录",
+            result: null,
+          });
+        } else {
+          next();
+        }
+      },
+    });
+  } else if (req.url != "api/admin/logon") {
+    res.send({
+      error_code: 401,
+      resaon: "你还没有登录请登录",
+      result: null,
+    });
+  } else {
+    next();
+  }
 });
-
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
-});
+// 后台接口
+app.use("/api", frontRouter);
 
 module.exports = app;
