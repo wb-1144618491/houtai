@@ -392,7 +392,7 @@ router.post("/addsaler", (req, res) => {
   });
 });
 // 修改卖品
-router.psot("/updsaler", (req, res) => {
+router.post("/updsaler", (req, res) => {
   let {
     _id,
     salertitile,
@@ -412,7 +412,7 @@ router.psot("/updsaler", (req, res) => {
   });
 });
 // 删除卖品
-router.psot("/delsaler", (req, res) => {
+router.post("/delsaler", (req, res) => {
   let { _id } = req.body;
   db.delete({
     model_name: MODEL_SALER,

@@ -129,15 +129,14 @@ router.get("/admin/getrole", (req, res) => {
   });
 });
 // 查询角色
-router,
-  get("/admin/getallrole", (req, res) => {
-    db.find({
-      model_name: MODEL_ROLE,
-      callback: (rst) => {
-        res.send(rst);
-      },
-    });
+router.get("/admin/getallrole", (req, res) => {
+  db.find({
+    model_name: MODEL_ROLE,
+    callback: (rst) => {
+      res.send(rst);
+    },
   });
+});
 // 查询角色列表数据条数
 router.get("/admin/getrolecount", (req, res) => {
   db.count({
