@@ -22,10 +22,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 // 前台接口
-app.use("/api", apiRouter);
+app.use("/api", frontRouter);
+
 app.use((req, res, next) => {
   if (req.headers.token) {
-    let db = new DB("houtia");
+    let db = new DB("houtai");
     db.findById({
       model_name: "adminuser",
       id: req.headers.token,
@@ -36,7 +37,7 @@ app.use((req, res, next) => {
             reason: "账号不存在",
             result: null,
           });
-        } else if (Date.now() > res.result.expires) {
+        } else if (Date.now() > rst.result.expires) {
           res.send({
             error_code: "402",
             reason: "token过期,请重新登录",
@@ -47,7 +48,7 @@ app.use((req, res, next) => {
         }
       },
     });
-  } else if (req.url != "api/admin/logon") {
+  } else if (req.url != "/api/admin/login") {
     res.send({
       error_code: 401,
       resaon: "你还没有登录请登录",
@@ -58,6 +59,6 @@ app.use((req, res, next) => {
   }
 });
 // 后台接口
-app.use("/api", frontRouter);
+app.use("/api", apiRouter);
 
 module.exports = app;

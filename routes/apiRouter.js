@@ -62,6 +62,7 @@ router.get("/admin/getlimit", (req, res) => {
   });
 });
 // 查询权限（所有权限）
+
 router.get("/admin/getlimitall", (req, res) => {
   db.find({
     model_name: MODEL_LIMIT,
@@ -227,12 +228,14 @@ router.get("/admin/getadminuserbyid", (req, res) => {
 });
 // 管理员登录
 router.post("/admin/login", (req, res) => {
+  // console.log(req, res);
   let { username, password } = req.body;
   password = md5(password);
   db.find({
     model_name: MODEL_ADMIN_USER,
     query: { username, password },
     callback: (rst) => {
+      console.log(rst);
       if (rst.result.length > 0) {
         let id = rst.result[0]._id;
         // 登陆成功把token更新上去
