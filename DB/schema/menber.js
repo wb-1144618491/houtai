@@ -18,3 +18,4 @@ var schema = new Schema({
     required: true,
   },
 });
+module.exports = schema;

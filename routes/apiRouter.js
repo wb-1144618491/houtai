@@ -17,7 +17,9 @@ const MODEL_ADMIN_USER = "adminuser"; //管理账户
 /* **********权限接口*********** */
 
 router.post("/admin/addlimit", (req, res) => {
+  console.log(req.body);
   let { pid, limitname, title } = req.body;
+
   db.insert({
     model_name: MODEL_LIMIT,
     data: { pid, limitname, title },
@@ -94,7 +96,7 @@ router.post("/admin/addrole", (req, res) => {
   });
 });
 // 修改角色
-router.post(".admin/updaterole", (req, res) => {
+router.post("/admin/updaterole", (req, res) => {
   // linmit为权限的id,注意是objectID类型
   let { _id, rolename, limit } = req.body;
   db.update({

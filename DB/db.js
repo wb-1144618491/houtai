@@ -28,15 +28,6 @@ class Db {
   // 处理model和schema同名
   findModel(model_name) {
     let schema_name = model_name;
-    // switch (model_name) {
-    //   case "hot":
-    //   case "recommend":
-    //     schema_name = "film";
-    //     break;
-
-    //   default:
-    //     break;
-    // }
     let schema = require(`./schema/${schema_name}`);
     // 创建model
     var model = mongoose.model(model_name, schema);
@@ -191,7 +182,7 @@ class Db {
         });
     } catch (err) {
       // 连接失败
-      callback({ error_code: 102, reason: "连接失败", result: err });
+      callback({ error_code: 102, reason: "数据库连接失败", result: err });
     }
   }
   // 查询数量
@@ -207,12 +198,13 @@ class Db {
       });
     } catch (err) {
       // 连接失败
-      callback({ error_code: 102, reason: "连接失败", result: err });
+      callback({ error_code: 102, reason: "数量连接失败", result: err });
     }
   }
 
   // 新增数据
   async insert({ model_name = "", data = {}, callback } = {}) {
+    console.log(data);
     try {
       await this.connect();
       this.findModel(model_name).insertMany(data, (err, rst) => {
@@ -224,7 +216,7 @@ class Db {
       });
     } catch (err) {
       // 连接失败
-      callback({ error_code: 102, reason: "连接失败", result: err });
+      callback({ error_code: 102, reason: "新增连接失败", result: err });
     }
   }
   // 更新数据
@@ -244,7 +236,7 @@ class Db {
       );
     } catch (err) {
       // 连接失败
-      callback({ error_code: 102, reason: "连接失败", result: err });
+      callback({ error_code: 102, reason: "更新连接失败", result: err });
     }
   }
   // 删除数据
@@ -260,7 +252,7 @@ class Db {
       });
     } catch (err) {
       // 连接失败
-      callback({ error_code: 102, reason: "连接失败", result: err });
+      callback({ error_code: 102, reason: "删除连接失败", result: err });
     }
   }
   close() {
