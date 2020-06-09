@@ -133,7 +133,7 @@ router.get("/admin/getrole", (req, res) => {
   });
 });
 // 查询角色
-router.get("/admin/getallrole", (req, res) => {
+router.get("/admin/getaddrole", (req, res) => {
   db.find({
     model_name: MODEL_ROLE,
     callback: (rst) => {
