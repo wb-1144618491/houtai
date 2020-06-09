@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+
 // 影院列表模型
 var schema = new Schema({
   cinema_name: {
@@ -13,3 +14,4 @@ var schema = new Schema({
     ref: "city",
   },
 });
+module.exports = schema;

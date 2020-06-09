@@ -1,8 +1,9 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+
 // 权限模型
 var schema = new Schema({
-  // 父节点id，如果没有父节点（顶级节点）默认为0
+  // 父节点id,如果没有父节点(顶级节点))，默认为0
   pid: {
     type: String,
     default: 0,
@@ -18,4 +19,5 @@ var schema = new Schema({
     type: String,
   },
 });
+
 module.exports = schema;

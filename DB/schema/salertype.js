@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+
 // 卖品分类
 var schema = new Schema({
   salertype: {
@@ -8,4 +9,5 @@ var schema = new Schema({
     unique: true,
   },
 });
+
 module.exports = schema;

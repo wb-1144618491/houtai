@@ -13,38 +13,31 @@ function md5(password) {
 }
 //管理员模型
 var schema = new Schema({
-  //  用户名
   username: {
     type: String,
-    //  验证
     required: true,
-    //  生成唯一的索引
     unique: true,
   },
-  //  密码
   password: {
     type: String,
     required: true,
     default: md5("000000"),
   },
-  //   关联的表
   role: {
     required: true,
     type: mongoose.Types.ObjectId,
     ref: "role",
   },
-  //  令牌
+  // 令牌
   token: {
     type: String,
+    // unique: true
   },
-  //  令牌过期时间
+  // 令牌过期时间
   expires: {
     type: Number,
-    // new Date 返回当前的本地日期和时间
-    // date now 返回当前日期和时间的Date对象与'1970/01/01 00:00:00'之间的毫秒值(北京时间的时区为东8区，起点时间实际为：'1970/01/01 08:00:00')
-    // getTime()返回Date对象与'1970/01/01 00:00:00'之间的毫秒值(北京时间的时区为东8区，起点时间实际为：'1970/01/01 08:00:00') 。
-    // 过期时间默认值
     default: new Date(Date.now() + 1000 * 60 * 60).getTime(),
   },
 });
+
 module.exports = schema;

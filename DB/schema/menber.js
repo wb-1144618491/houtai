@@ -2,7 +2,6 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 // 会员模型
 var schema = new Schema({
-  // 账号
   mobile: {
     type: String,
     required: true,
@@ -18,4 +17,5 @@ var schema = new Schema({
     required: true,
   },
 });
+
 module.exports = schema;

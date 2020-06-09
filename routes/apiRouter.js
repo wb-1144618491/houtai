@@ -54,9 +54,10 @@ router.post("/admin/deletelimit", (req, res) => {
 // 查询权限（分页查询）
 router.get("/admin/getlimit", (req, res) => {
   let { currpage } = req.query;
+
   db.pagination({
     model_name: MODEL_LIMIT,
-    skit: (currpage - 1) * 5,
+    skip: (currpage - 1) * 5,
     limit: 5,
     callback: (rst) => {
       res.send(rst);
@@ -217,7 +218,7 @@ router.get("/admin/getadminusercount", (req, res) => {
   });
 });
 // 通过_id 查询当前管理员信息（主要查询关联的权限信息）
-router.get("/admin/getadminuserbyid", (req, res) => {
+router.get("/admin/getadminuserbyid", function (req, res) {
   let { _id } = req.query;
   db.populate({
     model_name: MODEL_ADMIN_USER,
@@ -225,6 +226,7 @@ router.get("/admin/getadminuserbyid", (req, res) => {
     refs: ["role", "limit"],
     callback: (rst) => {
       res.send(rst);
+      console.log(rst);
     },
   });
 });

@@ -9,15 +9,14 @@ var schema = new Schema({
     required: true,
     unique: true,
   },
-  createtime: {
-    type: String,
-    default: new Date(),
-  },
   // 角色对应的权限列表
-  limit: {
-    required: true,
-    type: mongoose.Types.ObjectId,
-    ref: "limit",
-  },
+  limit: [
+    {
+      required: true,
+      type: mongoose.Types.ObjectId,
+      ref: "limit",
+    },
+  ],
 });
+
 module.exports = schema;
